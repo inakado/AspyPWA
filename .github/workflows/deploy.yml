@@ -19,12 +19,13 @@ jobs:
 
       - name: SSH Deploy
         run: |
-          ssh -tt -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no root@${{ secrets.DEPLOY_HOST }} << 'EOF'
-          cd /var/www/aspyart/AspyPWA
-          sudo -u www-data git fetch --all
-          sudo -u www-data git reset --hard origin/main
-          sudo -u www-data npm install
-          sudo -u www-data npm run build
-          sudo systemctl restart aspyart-frontend
-          echo "✅ Deployed at $(date)"
-          EOF
+          ssh -i ~/.ssh/id_ed25519 \
+            -o StrictHostKeyChecking=no \
+            root@${{ secrets.DEPLOY_HOST }} \
+            "cd /var/www/aspyart/AspyPWA && \
+             sudo -u www-data git fetch --all && \
+             sudo -u www-data git reset --hard origin/main && \
+             sudo -u www-data npm install && \
+             sudo -u www-data npm run build && \
+             sudo systemctl restart aspyart-frontend && \
+             echo '✅ Deployed at $(date)'"
