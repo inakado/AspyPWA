@@ -17,15 +17,30 @@ jobs:
           echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
 
-      - name: SSH Deploy
+      - name: SSH deploy
         run: |
+          # ---------- формируем deploy-скрипт ----------
+          cat > deploy.sh <<'SCRIPT'
+          #!/bin/bash
+          set -e
+
+          # если репозиторий ещё не клонирован – клонируем
+          if [ ! -d /var/www/aspyart/AspyPWA/.git ]; then
+            git clone https://github.com/inakado/AspyPWA.git /var/www/aspyart/AspyPWA
+            chown -R www-data:www-data /var/www/aspyart/AspyPWA
+          fi
+
+          cd /var/www/aspyart/AspyPWA
+          sudo -u www-data git fetch --all
+          sudo -u www-data git reset --hard origin/main
+          sudo -u www-data npm ci
+          sudo -u www-data npm run build
+          systemctl restart aspyart-frontend
+          echo "✅ Deployed at $(date)"
+          SCRIPT
+          chmod +x deploy.sh
+
+          # ---------- отправляем и выполняем -------------
           ssh -i ~/.ssh/id_ed25519 \
-            -o StrictHostKeyChecking=no \
-            root@${{ secrets.DEPLOY_HOST }} \
-            "cd /var/www/aspyart/AspyPWA && \
-             sudo -u www-data git fetch --all && \
-             sudo -u www-data git reset --hard origin/main && \
-             sudo -u www-data npm install && \
-             sudo -u www-data npm run build && \
-             sudo systemctl restart aspyart-frontend && \
-             echo '✅ Deployed at $(date)'"
+              -o StrictHostKeyChecking=no \
+              root@${{ secrets.DEPLOY_HOST }} "bash -s" < ./deploy.sh
