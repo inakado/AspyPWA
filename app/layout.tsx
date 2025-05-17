@@ -28,13 +28,23 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: "Art Auction | Discover Unique Artworks",
+  title: "ASPY",
   description: "Explore and bid on exclusive artworks from renowned artists",
   manifest: "/manifest.json",
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.png', type: 'image/png', sizes: '32x32' }
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }
+    ],
+    shortcut: ['/shortcut-icon.png'],
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Art Auction",
+    title: "Art Auction"
   },
   generator: 'v0.dev'
 }
