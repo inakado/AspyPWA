@@ -17,14 +17,16 @@ jobs:
           echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
 
-      - name: SSH deploy
+      - name: SSH Deploy
         run: |
-          # ---------- формируем deploy-скрипт ----------
-          cat > deploy.sh <<'SCRIPT'
+          # весь скрипт будет передан по stdin
+          cat <<'SCRIPT' | ssh -i ~/.ssh/id_ed25519 \
+                                -o StrictHostKeyChecking=no \
+                                root@${{ secrets.DEPLOY_HOST }} bash -s
           #!/bin/bash
           set -e
 
-          # если репозиторий ещё не клонирован – клонируем
+          # клонируем, если репозиторий отсутствует
           if [ ! -d /var/www/aspyart/AspyPWA/.git ]; then
             git clone https://github.com/inakado/AspyPWA.git /var/www/aspyart/AspyPWA
             chown -R www-data:www-data /var/www/aspyart/AspyPWA
@@ -38,9 +40,3 @@ jobs:
           systemctl restart aspyart-frontend
           echo "✅ Deployed at $(date)"
           SCRIPT
-          chmod +x deploy.sh
-
-          # ---------- отправляем и выполняем -------------
-          ssh -i ~/.ssh/id_ed25519 \
-              -o StrictHostKeyChecking=no \
-              root@${{ secrets.DEPLOY_HOST }} "bash -s" < ./deploy.sh
