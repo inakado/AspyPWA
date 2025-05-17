@@ -1,0 +1,115 @@
+import { baserowClient } from '../baserow'
+import type { Artist, BaserowReference } from '../baserow'
+
+/**
+ * Адаптированная модель художника для использования на клиенте
+ */
+export interface ArtistModel {
+	id: number
+	name: string
+	displayName: string
+	bio: string
+	image: string | null
+	photos: string[]
+	artworksCount: number
+	lots: { id: number; name: string }[]
+	tags: string[]
+}
+
+/**
+ * Получение списка всех художников
+ */
+export async function getArtists(): Promise<ArtistModel[]> {
+	try {
+		const response = await baserowClient.getArtists()
+		return response.results.map(transformArtistToModel)
+	} catch (error) {
+		console.error('Ошибка при получении списка художников:', error)
+		return []
+	}
+}
+
+/**
+ * Получение художника по ID
+ */
+export async function getArtistById(id: number): Promise<ArtistModel | null> {
+	try {
+		const artist = await baserowClient.getArtistById(id)
+		return transformArtistToModel(artist)
+	} catch (error) {
+		console.error(`Ошибка при получении художника с ID ${id}:`, error)
+		return null
+	}
+}
+
+/**
+ * Преобразование данных из Baserow в модель художника
+ */
+function transformArtistToModel(artist: Artist): ArtistModel {
+	// Получаем основное фото художника (первое в списке или null)
+	const mainPhoto = artist.photos?.length > 0 
+		? artist.photos[0].url 
+		: null
+
+	// Получаем все фото художника
+	const photos = artist.photos?.map(photo => photo.url) || []
+
+	// Получаем список лотов художника
+	const lots = artist.Lots?.map(transformReference) || []
+
+	// Временно заглушка для тегов, так как в Baserow их нет
+	// В реальном проекте эти данные должны храниться в БД
+	const tags = generateTagsFromBio(artist.bio)
+
+	return {
+		id: artist.id,
+		name: artist.Name,
+		displayName: artist.displayName || artist.Name,
+		bio: artist.bio || '',
+		image: mainPhoto,
+		photos,
+		artworksCount: lots.length,
+		lots,
+		tags,
+	}
+}
+
+/**
+ * Преобразование ссылки Baserow в объект { id, name }
+ */
+function transformReference(ref: BaserowReference) {
+	return {
+		id: ref.id,
+		name: ref.value,
+	}
+}
+
+/**
+ * Генерация тегов на основе описания художника (временное решение)
+ * В реальном проекте теги должны храниться в БД
+ */
+function generateTagsFromBio(bio: string = ''): string[] {
+	const defaultTags = ['Современное искусство']
+	
+	// Ключевые слова для тегов
+	const keywordMap = {
+		'монументалист': 'Монументальное искусство',
+		'мозаик': 'Мозаика',
+		'живопис': 'Живопись',
+		'муралист': 'Стрит-арт',
+		'владивосток': 'Владивосток',
+		'графи': 'Графика',
+	}
+
+	const tags = [...defaultTags]
+	
+	// Добавляем теги на основе ключевых слов в описании
+	Object.entries(keywordMap).forEach(([keyword, tag]) => {
+		if (bio.toLowerCase().includes(keyword.toLowerCase())) {
+			tags.push(tag)
+		}
+	})
+	
+	// Удаляем дубликаты и возвращаем не более 5 тегов
+	return [...new Set(tags)].slice(0, 5)
+} 
