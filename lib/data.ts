@@ -4,7 +4,7 @@
 export function getActiveEvent() {
   return {
     id: "event-1",
-    title: "Осенний аукцион современного искусства",
+    title: "Осенний аукцион",
     date: "2025-05-20",
     startTime: "18:00",
     endTime: "22:00",
