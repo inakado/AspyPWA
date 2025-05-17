@@ -11,23 +11,20 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # 1) Кладём приватный ключ в ~/.ssh
       - name: Setup SSH key
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
 
-      # 2) Делаем SSH-деплой
       - name: SSH Deploy
         run: |
-          ssh -tt -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
-              root@${{ secrets.DEPLOY_HOST }} <<'EOF'
-cd /var/www/aspyart/AspyPWA
-sudo -u www-data git fetch --all
-sudo -u www-data git reset --hard origin/main
-sudo -u www-data npm install
-sudo -u www-data npm run build
-sudo systemctl restart aspyart-frontend
-echo "✅ Deployed at $(date)"
-EOF
+          ssh -tt -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no root@${{ secrets.DEPLOY_HOST }} << 'EOF'
+          cd /var/www/aspyart/AspyPWA
+          sudo -u www-data git fetch --all
+          sudo -u www-data git reset --hard origin/main
+          sudo -u www-data npm install
+          sudo -u www-data npm run build
+          sudo systemctl restart aspyart-frontend
+          echo "✅ Deployed at $(date)"
+          EOF
