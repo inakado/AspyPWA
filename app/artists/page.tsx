@@ -166,12 +166,6 @@ export default function ArtistsPage() {
               </div>
               <CardContent className="p-4">
                 <div className="flex items-center gap-3">
-                  <Avatar>
-                    <AvatarImage src={artist.image || "/placeholder.svg"} alt={artist.name} />
-                    <AvatarFallback className="bg-art-primary text-white">
-                      {artist.name.substring(0, 2)}
-                    </AvatarFallback>
-                  </Avatar>
                   <div>
                     <Link href={`/artists/${artist.id}`}>
                       <h3 className="font-semibold hover:text-primary">{artist.displayName || artist.name}</h3>
