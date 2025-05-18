@@ -79,7 +79,7 @@ export default function SoldArtworks() {
           href="/sold"
           className="flex items-center text-sm text-art-primary hover:text-art-accent transition-colors"
         >
-          Все проданные работы <ArrowRight className="w-4 h-4 ml-1" />
+          Все работы <ArrowRight className="w-4 h-4 ml-1" />
         </Link>
       </div>
 
