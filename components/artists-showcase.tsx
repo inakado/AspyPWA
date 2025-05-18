@@ -147,9 +147,9 @@ export default function ArtistsShowcase() {
             setApi={setApi}
             className="w-full"
           >
-            <CarouselContent className="-ml-2 md:-ml-4">
+            <CarouselContent className="-ml-4 md:-ml-6">
               {artists.map((artist) => (
-                <CarouselItem key={artist.id} className="pl-2 md:pl-4 basis-4/5 sm:basis-1/2 lg:basis-1/3 xl:basis-1/4">
+                <CarouselItem key={artist.id} className="pl-4 md:pl-6 basis-4/5 sm:basis-1/2 lg:basis-1/3 xl:basis-1/4">
                   {renderArtistCard(artist)}
                 </CarouselItem>
               ))}

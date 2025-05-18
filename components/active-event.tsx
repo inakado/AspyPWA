@@ -26,7 +26,7 @@ export default function ActiveEvent() {
             />
           </div>
 
-          <div className="flex flex-col justify-center p-8 space-y-5">
+          <div className="flex flex-col justify-center px-4 py-8 md:p-8 space-y-5">
             <div>
               <h3 className="text-2xl font-serif font-medium text-art-primary">{event.title}</h3>
               <p className="mt-1 text-foreground/70">{new Date(event.date).toLocaleDateString("ru-RU")}</p>
