@@ -35,7 +35,7 @@ jobs:
           cd /var/www/aspyart/AspyPWA
           sudo -u www-data git fetch --all
           sudo -u www-data git reset --hard origin/main
-          sudo -u www-data npm ci
+          sudo -u www-data npm install
           sudo -u www-data npm run build
           systemctl restart aspyart-frontend
           echo "✅ Deployed at $(date)"
