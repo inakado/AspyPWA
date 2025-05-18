@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation"
 import { Menu, User, ShoppingBag } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { ThemeToggle } from "@/components/theme-toggle"
 import SearchDialog from "@/components/search-dialog"
 
 export default function Header() {
@@ -74,8 +73,6 @@ export default function Header() {
 
         <div className="flex items-center gap-2">
           <SearchDialog />
-
-          <ThemeToggle />
 
           <Button variant="ghost" size="icon">
             <User className="w-5 h-5 text-foreground" />

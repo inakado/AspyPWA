@@ -99,7 +99,7 @@ export default function SoldArtworks() {
               </div>
             </div>
             <CardContent className="p-5">
-              <Link href={`/lots/${artwork.id}`} className="elegant-link">
+              <Link href={`/artworks/${artwork.id}`} className="elegant-link">
                 <h3 className="font-serif font-medium text-art-primary">{artwork.name}</h3>
               </Link>
               {artwork.artists.length > 0 && (
