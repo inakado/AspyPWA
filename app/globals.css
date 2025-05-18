@@ -70,7 +70,7 @@
 
 @layer components {
   .elegant-card {
-    @apply bg-art-base border border-border/40 shadow-elegant transition-all duration-300 hover:shadow-elegant-hover;
+    @apply bg-art-base transition-all duration-300;
   }
 
   .elegant-link {

@@ -58,7 +58,7 @@ export default function BidForm({ artworkId, currentBid }: BidFormProps) {
   return (
     <form onSubmit={handleSubmit} className="mt-4">
       <div className="space-y-2">
-        <label htmlFor="bid-amount" className="text-sm text-muted-foreground">
+        <label htmlFor="bid-amount" className="text-sm text-primary/40">
           Ваша ставка (мин. {minBid}₽)
         </label>
         <div className="flex gap-2">
@@ -70,7 +70,7 @@ export default function BidForm({ artworkId, currentBid }: BidFormProps) {
             value={bidAmount}
             onChange={(e) => setBidAmount(e.target.value)}
             placeholder={`${minBid}`}
-            className="flex-1"
+            className="flex-1 bg-white border-primary/20"
             required
           />
           <Button type="submit" disabled={isSubmitting} className="flex items-center gap-1">

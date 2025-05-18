@@ -66,8 +66,8 @@ export default function SoldArtworksPage() {
 					{[...Array(8)].map((_, index) => (
 						<Card key={index}>
 							<Skeleton className="aspect-[3/4] w-full" />
-							<CardContent className="p-5">
-								<Skeleton className="h-6 w-40 mb-2" />
+							              <CardContent className="pt-5">
+                <Skeleton className="h-6 w-40 mb-2" />
 								<Skeleton className="h-4 w-32 mb-4" />
 								<div className="flex items-center justify-between mt-4">
 									<div>
@@ -146,12 +146,12 @@ export default function SoldArtworksPage() {
 										className="object-cover"
 										sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
 									/>
-									<div className="absolute inset-0 flex items-center justify-center bg-black/40">
+									<div className="absolute inset-0 flex items-center justify-center bg-[#1E3557]/40">
 										<span className="px-3 py-1 text-sm font-medium text-white bg-art-primary/90 rounded-sm">Продано</span>
 									</div>
 								</div>
-								<CardContent className="p-5">
-									<Link href={`/artworks/${artwork.id}`} className="elegant-link">
+								                <CardContent className="pt-5">
+                  <Link href={`/artworks/${artwork.id}`} className="elegant-link">
 										<h3 className="font-serif font-medium text-art-primary">{artwork.name}</h3>
 									</Link>
 									{artwork.artists.length > 0 && (

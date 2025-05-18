@@ -89,7 +89,7 @@ function AuctionCard({ auction }: { auction: any }) {
           </Badge>
         </div>
       </div>
-      <CardContent className="p-6">
+                <CardContent className="pt-5">
         <h2 className="mb-2 text-xl font-bold">{auction.title}</h2>
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div className="flex items-center gap-2">

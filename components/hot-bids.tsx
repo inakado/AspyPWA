@@ -36,7 +36,7 @@ export default function HotBids() {
                 <span>{bid.timeLeft}</span>
               </div>
             </div>
-            <CardContent className="p-5">
+            <CardContent className="pt-5">
               <Link href={`/artworks/${bid.id}`} className="elegant-link">
                 <h3 className="font-serif text-lg font-medium text-art-primary">{bid.title}</h3>
               </Link>

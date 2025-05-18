@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next"
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "ASPY Art Auction Platform",
-    short_name: "ASPY Art Auction",
+    name: "ASPY Аукцион современного искусства",
+    short_name: "ASPY Аукцион",
     description: "Discover and bid on exclusive artworks",
     start_url: "/",
     display: "standalone",

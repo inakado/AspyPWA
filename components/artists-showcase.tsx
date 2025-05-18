@@ -24,7 +24,7 @@ export default function ArtistsShowcase() {
           {[...Array(4)].map((_, index) => (
             <Card key={index}>
               <Skeleton className="aspect-video w-full" />
-              <CardContent className="p-5">
+              <CardContent className="pt-5">
                 <div className="flex items-center gap-3">
                   <Skeleton className="h-10 w-10 rounded-full" />
                   <div className="space-y-2">
@@ -81,7 +81,7 @@ export default function ArtistsShowcase() {
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
               />
             </div>
-            <CardContent className="p-5">
+            <CardContent className="pt-5">
               <div className="flex items-center gap-3">
 
                 <div>
@@ -93,7 +93,7 @@ export default function ArtistsShowcase() {
               </div>
               <div className="flex flex-wrap gap-2 mt-4">
                 {artist.tags.slice(0, 3).map((tag) => (
-                  <span key={tag} className="px-2 py-1 text-xs bg-art-muted rounded-sm text-foreground/80">
+                  <span key={tag} className="px-2 py-1 text-xs bg-primary/5 rounded-sm text-foreground/80">
                     {tag}
                   </span>
                 ))}

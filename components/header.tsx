@@ -14,7 +14,7 @@ export default function Header() {
     { name: "Главная", href: "/" },
     { name: "Аукционы", href: "/auctions" },
     { name: "Художники", href: "/artists" },
-    { name: "О нас", href: "/about" },
+    { name: "О проекте", href: "/about" },
   ]
 
   return (

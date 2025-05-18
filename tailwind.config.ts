@@ -54,7 +54,7 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
         // Добавляем кастомные цвета для прямого использования
-        "art-bg": "#F8F7F4",
+        "art-bg": "#FFFFFF",
         "art-primary": "#1D3557",
         "art-secondary": "#457B9D",
         "art-accent": "#C9A959",
@@ -85,10 +85,7 @@ const config = {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
         serif: ["var(--font-onest)", "system-ui", "sans-serif"],
       },
-      boxShadow: {
-        elegant: "0 4px 12px rgba(0, 0, 0, 0.05)",
-        "elegant-hover": "0 8px 20px rgba(0, 0, 0, 0.08)",
-      },
+      boxShadow: {},
     },
   },
   plugins: [require("tailwindcss-animate")],

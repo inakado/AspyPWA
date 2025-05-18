@@ -107,14 +107,14 @@ export default function ArtworkPage() {
             </p>
           </div>
 
-          <div className="p-4 border rounded-lg">
+          <div className="p-4 border border-primary/20 rounded-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Текущая ставка</p>
+                <p className="text-sm text-primary/40">Текущая ставка</p>
                 <p className="text-2xl font-bold">{lot.currentBid ? `${lot.currentBid.toLocaleString('ru-RU')} ₽` : "Нет ставок"}</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Начальная цена</p>
+                <p className="text-sm text-primary/40">Начальная цена</p>
                 <p className="text-lg">{lot.initialPrice.toLocaleString('ru-RU')} ₽</p>
               </div>
             </div>
@@ -135,7 +135,7 @@ export default function ArtworkPage() {
           </div>
 
           <Tabs defaultValue="description">
-            <TabsList className="w-full">
+            <TabsList className="w-full bg-primary/5">
               <TabsTrigger value="description" className="flex-1">
                 Описание
               </TabsTrigger>
@@ -146,7 +146,7 @@ export default function ArtworkPage() {
                 История ставок
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="description" className="p-4 mt-4 border rounded-lg">
+            <TabsContent value="description" className="p-4 mt-4 border border-primary/20 rounded-lg">
               <p>{lot.description}</p>
             </TabsContent>
             <TabsContent value="details" className="p-4 mt-4 border rounded-lg">

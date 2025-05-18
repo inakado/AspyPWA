@@ -22,7 +22,7 @@ export default function Announcements() {
       <div className="grid gap-6 md:grid-cols-2">
         {announcements.map((announcement) => (
           <Card key={announcement.id}>
-            <CardContent className="p-6">
+            <CardContent className="border border-primary/20 p-5">
               <div className="flex items-start justify-between">
                 <div>
                   <Badge variant={announcement.type === "event" ? "default" : "accent"}>

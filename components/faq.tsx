@@ -33,7 +33,7 @@ export default function FAQ() {
     <section className="py-10">
       <h2 className="mb-8 text-3xl font-serif font-medium text-center text-art-primary">Часто задаваемые вопросы</h2>
 
-      <Accordion type="single" collapsible className="w-full">
+      <Accordion type="single" collapsible className="max-w-4xl mx-auto">
         {faqItems.map((item, index) => (
           <AccordionItem key={index} value={`item-${index}`} className="border-border/40">
             <AccordionTrigger className="text-left font-medium text-art-primary hover:text-art-accent">
