@@ -155,7 +155,7 @@ export default function ArtistsPage() {
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredArtists.map((artist) => (
             <Card key={artist.id} className="overflow-hidden">
-              <div className="relative aspect-video">
+              <div className="relative aspect-[1/1]">
                 <Image
                   src={artist.image || "/placeholder.svg"}
                   alt={`${artist.name} artwork`}

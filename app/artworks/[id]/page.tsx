@@ -129,7 +129,7 @@ export default function ArtworkPage() {
 
             {!lot.isActive && (
               <div className="p-3 mt-4 text-center text-white bg-red-500 rounded-md">
-                Продано за {(lot.finalPrice || lot.initialPrice).toLocaleString('ru-RU')} ₽
+                {lot.finalText || (lot.finalPrice ? `Продано за ${lot.finalPrice.toLocaleString('ru-RU')} ₽` : `Продано за ${lot.initialPrice.toLocaleString('ru-RU')} ₽`)}
               </div>
             )}
           </div>

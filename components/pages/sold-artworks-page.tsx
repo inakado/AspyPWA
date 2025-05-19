@@ -164,9 +164,9 @@ export default function SoldArtworksPage() {
 									)}
 									<div className="flex items-center justify-between mt-4">
 										<div>
-											<p className="text-xs text-foreground/70">Продано за</p>
+											{!artwork.finalText && <p className="text-xs text-foreground/70">Продано за</p>}
 											<p className="font-medium text-art-primary">
-												{artwork.finalPrice ? artwork.finalPrice.toLocaleString('ru-RU') : artwork.initialPrice.toLocaleString('ru-RU')} ₽
+												{artwork.finalText || (artwork.finalPrice ? artwork.finalPrice.toLocaleString('ru-RU') : artwork.initialPrice.toLocaleString('ru-RU')) + ' ₽'}
 											</p>
 										</div>
 										{/* <p className="text-sm text-foreground/70">{new Date().toLocaleDateString("ru-RU")}</p> */}

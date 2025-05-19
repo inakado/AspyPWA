@@ -38,6 +38,7 @@ export interface Lot {
 	Bets: BaserowReference[]
 	InitialPrice: string
 	FinalPrice: string
+	FinalText: string
 	specs: string
 	description: string
 	year: string
@@ -56,6 +57,7 @@ export interface Artist {
 	Lots: BaserowReference[]
 	photos: BaserowImage[]
 	displayName: string
+	mainArt: BaserowImage[]
 }
 
 /**

@@ -57,7 +57,7 @@ export default function ArtistsShowcase() {
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {[...Array(4)].map((_, index) => (
             <Card key={index}>
-              <Skeleton className="aspect-video w-full" />
+              <Skeleton className="aspect-[4/3] w-full" />
               <CardContent className="pt-5">
                 <div className="flex items-center gap-3">
                   <Skeleton className="h-10 w-10 rounded-full" />
@@ -94,7 +94,7 @@ export default function ArtistsShowcase() {
   // Рендерим отдельный элемент с карточкой художника
   const renderArtistCard = (artist: ArtistModel) => (
     <Card key={artist.id}>
-      <div className="relative aspect-video">
+      <div className="relative aspect-[1/1]">
         <Image
           src={artist.image || "/placeholder.svg"}
           alt={`${artist.name} artwork`}

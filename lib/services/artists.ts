@@ -9,7 +9,8 @@ export interface ArtistModel {
 	name: string
 	displayName: string
 	bio: string
-	image: string | null
+	image: string | null  // Картинка из mainArt для карточек лотов
+	profileImage: string | null  // Фото художника из photos для страницы профиля
 	photos: string[]
 	artworksCount: number
 	lots: { id: number; name: string }[]
@@ -46,8 +47,15 @@ export async function getArtistById(id: number): Promise<ArtistModel | null> {
  * Преобразование данных из Baserow в модель художника
  */
 function transformArtistToModel(artist: Artist): ArtistModel {
-	// Получаем основное фото художника (первое в списке или null)
-	const mainPhoto = artist.photos?.length > 0 
+	// Получаем основное фото художника из поля mainArt или первое из photos
+	const mainPhoto = artist.mainArt?.length > 0 
+		? artist.mainArt[0].url 
+		: artist.photos?.length > 0 
+			? artist.photos[0].url 
+			: null
+
+	// Получаем фото для профиля из photos
+	const profilePhoto = artist.photos?.length > 0 
 		? artist.photos[0].url 
 		: null
 
@@ -67,6 +75,7 @@ function transformArtistToModel(artist: Artist): ArtistModel {
 		displayName: artist.displayName || artist.Name,
 		bio: artist.bio || '',
 		image: mainPhoto,
+		profileImage: profilePhoto,
 		photos,
 		artworksCount: lots.length,
 		lots,

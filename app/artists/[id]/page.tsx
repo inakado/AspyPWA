@@ -90,7 +90,7 @@ export default function ArtistPage() {
         <div className="flex flex-col items-center gap-6 md:flex-row md:items-start">
           <div className="relative w-48 h-48 overflow-hidden rounded-full">
             <Image
-              src={artist.image || "/placeholder.svg"}
+              src={artist.profileImage || "/placeholder.svg"}
               alt={artist.name}
               fill
               priority
@@ -119,7 +119,7 @@ export default function ArtistPage() {
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {sortedLots.map((lot) => (
             <Card key={lot.id} className="overflow-hidden">
-              <div className="relative aspect-[4/3]">
+              <div className="relative aspect-[1/1]">
                 <Image
                   src={lot.image || "/placeholder.svg"}
                   alt={lot.name}
@@ -144,9 +144,9 @@ export default function ArtistPage() {
                     </span>
                   ) : (
                     <div>
-                      <p className="text-xs text-foreground/70">Продано за</p>
+                      {!lot.finalText && <p className="text-xs text-foreground/70">Продано за</p>}
                       <p className="font-medium text-art-primary">
-                        {(lot.finalPrice || lot.initialPrice).toLocaleString('ru-RU')} ₽
+                        {lot.finalText || (lot.finalPrice ? `${lot.finalPrice.toLocaleString('ru-RU')} ₽` : `${lot.initialPrice.toLocaleString('ru-RU')} ₽`)}
                       </p>
                     </div>
                   )}

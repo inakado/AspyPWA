@@ -13,6 +13,7 @@ export interface LotModel {
 	images: string[]
 	initialPrice: number
 	finalPrice: number | null
+	finalText: string | null
 	currentBid: number | null
 	artists: { id: number; name: string; displayName?: string }[]
 	specs: string
@@ -199,6 +200,7 @@ function transformLotToModel(lot: Lot, artistsMap?: Map<number, { displayName: s
 			images: [],
 			initialPrice: 0,
 			finalPrice: null,
+			finalText: null,
 			currentBid: null,
 			artists: [],
 			specs: '',
@@ -236,7 +238,10 @@ function transformLotToModel(lot: Lot, artistsMap?: Map<number, { displayName: s
 	
 	// Проверяем наличие поля FinalPrice и преобразуем в число
 	// Это поле может отсутствовать в старых записях
-	const finalPrice = lot.FinalPrice !== undefined ? parseFloat(lot.FinalPrice || '0') : null
+	const finalPrice = lot.FinalPrice ? parseFloat(lot.FinalPrice) : null
+	
+	// Проверяем наличие текстового описания финальной цены
+	const finalText = lot.FinalText || null
 
 	return {
 		id: lot.id,
@@ -247,6 +252,7 @@ function transformLotToModel(lot: Lot, artistsMap?: Map<number, { displayName: s
 		images,
 		initialPrice,
 		finalPrice,
+		finalText,
 		currentBid,
 		artists,
 		specs: lot.specs || '',
