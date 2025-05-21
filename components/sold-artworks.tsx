@@ -87,16 +87,35 @@ export default function SoldArtworks() {
         {soldArtworks.slice(0, limitCount).map((artwork) => (
           <Card key={artwork.id}>
             <div className="relative aspect-[3/4]">
-              <Image
-                src={artwork.image || "/placeholder.svg"}
-                alt={artwork.name}
-                fill
-                className="object-cover"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-              />
-              <div className="absolute inset-0 flex items-center justify-center bg-[#1E3557]/40">
-                <span className="px-3 py-1 text-sm font-medium text-white bg-art-primary/90 rounded-sm">Продано</span>
-              </div>
+              {artwork.artists.length > 0 ? (
+                <Link href={`/artworks/${artwork.id}`}>
+                  <Image
+                    src={artwork.image || "/placeholder.svg"}
+                    alt={artwork.name}
+                    fill
+                    className="object-cover cursor-pointer transition-opacity hover:opacity-90"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-[#1E3557]/40">
+                    <span className="px-3 py-1 text-sm font-medium text-white bg-art-primary/90 rounded-sm">Продано</span>
+                  </div>
+                </Link>
+              ) : (
+                <>
+                  <Link href={`/artworks/${artwork.id}`}>
+                    <Image
+                      src={artwork.image || "/placeholder.svg"}
+                      alt={artwork.name}
+                      fill
+                      className="object-cover cursor-pointer transition-opacity hover:opacity-90"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center bg-[#1E3557]/40">
+                      <span className="px-3 py-1 text-sm font-medium text-white bg-art-primary/90 rounded-sm">Продано</span>
+                    </div>
+                  </Link>
+                </>
+              )}
             </div>
             <CardContent className="pt-5">
               <Link href={`/artworks/${artwork.id}`} className="elegant-link">

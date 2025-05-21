@@ -8,8 +8,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useLot } from "@/hooks/api/lots"
 import { useArtist } from "@/hooks/api"
 import { useLotBets } from "@/hooks/api/bets"
+import { useArtistLots } from "@/hooks/api/lots"
 import { Skeleton } from "@/components/ui/skeleton"
 import BidForm from "@/components/bid-form"
+import { Card, CardContent } from "@/components/ui/card"
+import { useCallback, useEffect, useState } from "react"
+import { useIsMobile } from "@/components/ui/use-mobile"
+import { 
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselApi
+} from "@/components/ui/carousel"
 
 export default function ArtworkPage() {
   const params = useParams();
@@ -20,6 +30,30 @@ export default function ArtworkPage() {
   // Получаем данные о художнике только если у нас есть ID художника
   const artistId = lot?.artists?.[0]?.id || null;
   const { artist, isLoading: artistLoading } = useArtist(artistId);
+  const { lots: artistLots, isLoading: artistLotsLoading } = useArtistLots(artistId);
+  
+  // Для слайдера с работами художника
+  const [api, setApi] = useState<CarouselApi | null>(null)
+  const [current, setCurrent] = useState(0)
+  const [count, setCount] = useState(0)
+  const isMobile = useIsMobile()
+
+  const onSelect = useCallback(() => {
+    if (!api) return
+    setCurrent(api.selectedScrollSnap())
+  }, [api])
+
+  useEffect(() => {
+    if (!api) return
+    
+    setCount(api.scrollSnapList().length)
+    onSelect()
+    api.on("select", onSelect)
+    
+    return () => {
+      api.off("select", onSelect)
+    }
+  }, [api, onSelect])
 
   // Показываем состояние загрузки
   if (lotLoading || artistLoading) {
@@ -79,6 +113,11 @@ export default function ArtworkPage() {
   if (!lot) {
     notFound();
   }
+
+  // Отфильтрованные работы художника (без текущей работы)
+  const filteredArtistLots = artistLots
+    ? artistLots.filter(artwork => artwork.id !== lotId)
+    : [];
 
   return (
     <div className="container px-4 py-8 mx-auto">
@@ -182,6 +221,99 @@ export default function ArtworkPage() {
           </Tabs>
         </div>
       </div>
+
+      {/* Секция с другими работами художника */}
+      {artistId && filteredArtistLots.length > 0 && (
+        <div className="mt-16">
+          <div className="w-full h-px bg-primary/10 my-8"></div>
+          
+          {artistLotsLoading ? (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {[...Array(4)].map((_, index) => (
+                <Card key={index}>
+                  <Skeleton className="aspect-[3/4] w-full" />
+                  <CardContent className="pt-5">
+                    <Skeleton className="h-6 w-40 mb-2" />
+                    <Skeleton className="h-4 w-32 mb-4" />
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <div className="relative">
+              <Carousel
+                opts={{
+                  align: "start",
+                  loop: false,
+                  dragFree: true,
+                  containScroll: "trimSnaps"
+                }}
+                setApi={setApi}
+                className="w-full"
+              >
+                <CarouselContent className="-ml-4 md:-ml-6">
+                  {filteredArtistLots.slice(0, 8).map((artwork) => (
+                    <CarouselItem key={artwork.id} className="pl-4 md:pl-6 basis-4/5 sm:basis-1/2 lg:basis-1/3 xl:basis-1/4">
+                      <Card>
+                        <div className="relative aspect-[3/4]">
+                          <Link href={`/artworks/${artwork.id}`}>
+                            <Image
+                              src={artwork.image || "/placeholder.svg"}
+                              alt={artwork.name}
+                              fill
+                              className="object-cover cursor-pointer transition-opacity hover:opacity-90"
+                              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                            />
+                          </Link>
+                        </div>
+                        <CardContent className="pt-5">
+                          <Link href={`/artworks/${artwork.id}`} className="elegant-link">
+                            <h3 className="font-serif font-medium text-primary">{artwork.name}</h3>
+                          </Link>
+                          <p className="text-sm text-foreground/70">{artwork.year}, {artwork.technique}</p>
+                          <div className="flex items-center justify-between mt-4">
+                            <div>
+                              {artwork.isActive ? (
+                                <>
+                                  <p className="text-xs text-foreground/70">Начальная цена</p>
+                                  <p className="font-medium text-primary">{artwork.initialPrice.toLocaleString('ru-RU')} ₽</p>
+                                </>
+                              ) : (
+                                <>
+                                  {!artwork.finalText && <p className="text-xs text-foreground/70">Продано за</p>}
+                                  <p className="font-medium text-primary">
+                                    {artwork.finalText || (artwork.finalPrice ? artwork.finalPrice.toLocaleString('ru-RU') : artwork.initialPrice.toLocaleString('ru-RU')) + ' ₽'}
+                                  </p>
+                                </>
+                              )}
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </Carousel>
+              
+              {/* Индикаторы слайдера */}
+              {count > 0 && (
+                <div className="flex justify-center gap-1 mt-4">
+                  {[...Array(count)].map((_, i) => (
+                    <button
+                      key={i}
+                      className={`h-1.5 rounded-full transition-all ${
+                        i === current ? "w-6 bg-primary" : "w-1.5 bg-primary/30"
+                      }`}
+                      onClick={() => api?.scrollTo(i)}
+                      aria-label={`Перейти к слайду ${i + 1}`}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

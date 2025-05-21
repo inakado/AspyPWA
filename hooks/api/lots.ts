@@ -196,4 +196,53 @@ export function useArtistLots(artistId: number | null) {
 	}, [artistId])
 
 	return { lots, isLoading, error }
+}
+
+/**
+ * Хук для получения списка избранных лотов
+ */
+export function useFavoriteArtworks() {
+	const [lots, setLots] = useState<LotModel[]>([])
+	const [isLoading, setIsLoading] = useState(true)
+	const [error, setError] = useState<string | null>(null)
+	const [retryCount, setRetryCount] = useState(0)
+	const MAX_RETRIES = 3
+
+	useEffect(() => {
+		const fetchFavoriteArtworks = async () => {
+			try {
+				setIsLoading(true)
+				setError(null)
+				
+				const response = await fetch('/api/lots?favorite=true')
+				
+				if (!response.ok) {
+					throw new Error('Не удалось загрузить данные об избранных работах')
+				}
+				
+				const data = await response.json()
+				setLots(data)
+			} catch (err) {
+				console.error('Ошибка при получении избранных работ:', err)
+				
+				// Если это не последняя попытка, повторяем
+				if (retryCount < MAX_RETRIES) {
+					setTimeout(() => {
+						setRetryCount(prev => prev + 1)
+					}, 1000) // 1 секунда между попытками
+				} else {
+					setError((err as Error).message)
+				}
+			} finally {
+				setIsLoading(false)
+			}
+		}
+
+		fetchFavoriteArtworks()
+	}, [retryCount])
+
+	// Функция для ручного повторного запроса
+	const retry = () => setRetryCount(0)
+
+	return { lots, isLoading, error, retry }
 } 

@@ -44,6 +44,7 @@ export interface Lot {
 	year: string
 	technique: string
 	status: boolean
+	favoritesArt: boolean
 }
 
 /**

@@ -273,4 +273,36 @@ function transformReference(ref: BaserowReference, extraData?: any) {
 		value: ref.value,
 		...extraData
 	}
+}
+
+/**
+ * Получение избранных лотов (с флагом favoritesArt=true)
+ */
+export async function getFavoriteArtworks(): Promise<LotModel[]> {
+	try {
+		const response = await baserowClient.getLots()
+		// Проверяем наличие данных перед фильтрацией
+		if (!response || !response.results || !Array.isArray(response.results)) {
+			console.warn('Получен некорректный ответ от API при запросе избранных лотов')
+			return []
+		}
+		
+		// Получаем все уникальные ID художников из избранных лотов
+		const artistIds = new Set<number>()
+		response.results
+			.filter(lot => lot.favoritesArt === true)
+			.forEach(lot => {
+				lot.Artists?.forEach(artist => artistIds.add(artist.id))
+			})
+		
+		// Загружаем полную информацию о художниках
+		const artistsMap = await getArtistsDisplayNames(Array.from(artistIds))
+		
+		return response.results
+			.filter(lot => lot.favoritesArt === true)
+			.map(lot => transformLotToModel(lot, artistsMap))
+	} catch (error) {
+		console.error('Ошибка при получении избранных лотов:', error)
+		return []
+	}
 } 

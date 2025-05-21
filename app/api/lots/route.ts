@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getLots, getLotById, getActiveLots, getLotsByArtistId, getSoldLots } from '@/lib/services'
+import { getLots, getLotById, getActiveLots, getLotsByArtistId, getSoldLots, getFavoriteArtworks } from '@/lib/services'
 
 /**
  * GET /api/lots - получение всех лотов
@@ -7,6 +7,7 @@ import { getLots, getLotById, getActiveLots, getLotsByArtistId, getSoldLots } fr
  * GET /api/lots?active=true - получение только активных лотов
  * GET /api/lots?sold=true - получение только проданных лотов
  * GET /api/lots?artistId=123 - получение лотов определенного художника
+ * GET /api/lots?favorite=true - получение избранных лотов
  */
 export async function GET(request: Request) {
 	try {
@@ -15,6 +16,7 @@ export async function GET(request: Request) {
 		const active = searchParams.get('active')
 		const sold = searchParams.get('sold')
 		const artistId = searchParams.get('artistId')
+		const favorite = searchParams.get('favorite')
 
 		// Получение лота по ID
 		if (id) {
@@ -48,6 +50,12 @@ export async function GET(request: Request) {
 		if (sold === 'true') {
 			const soldLots = await getSoldLots()
 			return NextResponse.json(soldLots)
+		}
+		
+		// Получение только избранных лотов
+		if (favorite === 'true') {
+			const favoriteLots = await getFavoriteArtworks()
+			return NextResponse.json(favoriteLots)
 		}
 
 		// Получение всех лотов

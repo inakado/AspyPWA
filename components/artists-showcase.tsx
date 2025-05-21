@@ -95,13 +95,15 @@ export default function ArtistsShowcase() {
   const renderArtistCard = (artist: ArtistModel) => (
     <Card key={artist.id}>
       <div className="relative aspect-[1/1]">
-        <Image
-          src={artist.image || "/placeholder.svg"}
-          alt={`${artist.name} artwork`}
-          fill
-          className="object-cover"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-        />
+        <Link href={`/artists/${artist.id}`}>
+          <Image
+            src={artist.image || "/placeholder.svg"}
+            alt={`${artist.name} artwork`}
+            fill
+            className="object-cover cursor-pointer transition-opacity hover:opacity-90"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+          />
+        </Link>
       </div>
       <CardContent className="pt-5">
         <div className="flex items-center gap-3">
