@@ -65,9 +65,13 @@ function transformArtistToModel(artist: Artist): ArtistModel {
 	// Получаем список лотов художника
 	const lots = artist.Lots?.map(transformReference) || []
 
-	// Временно заглушка для тегов, так как в Baserow их нет
-	// В реальном проекте эти данные должны храниться в БД
-	const tags = generateTagsFromBio(artist.bio)
+	// Получаем теги художника из Baserow
+	const tags = artist.tags?.map(tag => tag.value) || []
+	
+	// Если теги отсутствуют, используем запасной вариант с генерацией из био
+	if (tags.length === 0) {
+		tags.push(...generateTagsFromBio(artist.bio))
+	}
 
 	return {
 		id: artist.id,
@@ -95,7 +99,7 @@ function transformReference(ref: BaserowReference) {
 
 /**
  * Генерация тегов на основе описания художника (временное решение)
- * В реальном проекте теги должны храниться в БД
+ * Используется только если в Baserow не заданы теги
  */
 function generateTagsFromBio(bio: string = ''): string[] {
 	const defaultTags = ['Современное искусство']

@@ -5,7 +5,7 @@ export default function Footer() {
 	return (
 		<footer className="bg-art-primary text-white">
 			<div className="container mx-auto px-4 py-12">
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 					{/* Логотип и описание */}
 					<div className="space-y-4">
 						<Link href="/" className="block">
@@ -44,28 +44,6 @@ export default function Footer() {
 							<li>
 								<Link href="/about" className="text-white/80 hover:text-white transition-colors">
 									О проекте
-								</Link>
-							</li>
-						</ul>
-					</div>
-
-					{/* Информация */}
-					<div>
-						<h3 className="font-serif text-lg mb-4">Информация</h3>
-						<ul className="space-y-2">
-							<li>
-								<Link href="/how-it-works" className="text-white/80 hover:text-white transition-colors">
-									Как это работает
-								</Link>
-							</li>
-							<li>
-								<Link href="/terms" className="text-white/80 hover:text-white transition-colors">
-									Условия использования
-								</Link>
-							</li>
-							<li>
-								<Link href="/privacy" className="text-white/80 hover:text-white transition-colors">
-									Политика конфиденциальности
 								</Link>
 							</li>
 						</ul>

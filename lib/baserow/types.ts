@@ -26,6 +26,15 @@ export interface BaserowReference {
 }
 
 /**
+ * Тег художника в Baserow
+ */
+export interface BaserowTag {
+	id: number
+	value: string
+	color: string
+}
+
+/**
  * Таблица Lots (425401)
  */
 export interface Lot {
@@ -59,6 +68,7 @@ export interface Artist {
 	photos: BaserowImage[]
 	displayName: string
 	mainArt: BaserowImage[]
+	tags: BaserowTag[]
 }
 
 /**

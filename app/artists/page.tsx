@@ -17,6 +17,20 @@ export default function ArtistsPage() {
   const [sortBy, setSortBy] = useState('name')
   const [styleFilter, setStyleFilter] = useState('all')
 
+  // Получаем все уникальные теги из художников
+  const uniqueTags = useMemo(() => {
+    if (!artists.length) return []
+    
+    const tagsSet = new Set<string>()
+    artists.forEach(artist => {
+      artist.tags.forEach(tag => {
+        tagsSet.add(tag)
+      })
+    })
+    
+    return Array.from(tagsSet).sort()
+  }, [artists])
+
   // Фильтрация и сортировка художников
   const filteredArtists = useMemo(() => {
     if (!artists.length) return []
@@ -32,10 +46,11 @@ export default function ArtistsPage() {
       )
     }
 
-    // Фильтрация по стилю (здесь заглушка)
+    // Фильтрация по стилю
     if (styleFilter !== 'all') {
-      // В реальном приложении здесь будет фильтрация по тегам/стилям
-      // Оставляем как заглушку
+      result = result.filter(artist => 
+        artist.tags.some(tag => tag.toLowerCase() === styleFilter.toLowerCase())
+      )
     }
 
     // Сортировка результатов
@@ -121,10 +136,9 @@ export default function ArtistsPage() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">Все стили</SelectItem>
-              <SelectItem value="impressionism">Импрессионизм</SelectItem>
-              <SelectItem value="abstract">Абстракционизм</SelectItem>
-              <SelectItem value="realism">Реализм</SelectItem>
-              <SelectItem value="modern">Современное искусство</SelectItem>
+              {uniqueTags.map(tag => (
+                <SelectItem key={tag} value={tag.toLowerCase()}>{tag}</SelectItem>
+              ))}
             </SelectContent>
           </Select>
           <Select value={sortBy} onValueChange={setSortBy}>
@@ -173,13 +187,15 @@ export default function ArtistsPage() {
                     <p className="text-sm text-muted-foreground">{pluralizeWorks(artist.artworksCount)}</p>
                   </div>
                 </div>
-                <div className="flex flex-wrap gap-2 mt-4">
-                  {artist.tags.slice(0, 3).map((tag) => (
-                    <span key={tag} className="px-2 py-1 text-xs bg-muted rounded-full">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+                {artist.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {artist.tags.slice(0, 3).map((tag) => (
+                      <span key={tag} className="px-2 py-1 text-xs bg-muted rounded-full">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </CardContent>
             </Card>
           ))}

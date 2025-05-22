@@ -2,7 +2,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { Menu, User, ShoppingBag } from "lucide-react"
+import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import SearchDialog from "@/components/search-dialog"
@@ -71,18 +71,8 @@ export default function Header() {
           </nav>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center">
           <SearchDialog />
-
-          <Button variant="ghost" size="icon">
-            <User className="w-5 h-5 text-foreground" />
-            <span className="sr-only">Account</span>
-          </Button>
-
-          <Button variant="ghost" size="icon">
-            <ShoppingBag className="w-5 h-5 text-foreground" />
-            <span className="sr-only">Favorites</span>
-          </Button>
         </div>
       </div>
     </header>

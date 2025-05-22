@@ -196,7 +196,7 @@ export function useArtistLots(artistId: number | null) {
 	}, [artistId])
 
 	return { lots, isLoading, error }
-}
+} 
 
 /**
  * Хук для получения списка избранных лотов

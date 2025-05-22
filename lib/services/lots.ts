@@ -273,7 +273,7 @@ function transformReference(ref: BaserowReference, extraData?: any) {
 		value: ref.value,
 		...extraData
 	}
-}
+} 
 
 /**
  * Получение избранных лотов (с флагом favoritesArt=true)

@@ -102,13 +102,15 @@ export default function ArtistPage() {
           <div className="text-center md:text-left">
             <h1 className="text-3xl font-bold">{artist.displayName || artist.name}</h1>
             <p className="mt-2 text-muted-foreground">{artist.bio}</p>
-            <div className="flex flex-wrap justify-center gap-4 mt-4 md:justify-start">
-              {artist.tags.map((tag) => (
-                <span key={tag} className="px-3 py-1 text-sm bg-muted rounded-full">
-                  {tag}
-                </span>
-              ))}
-            </div>
+            {artist.tags.length > 0 && (
+              <div className="flex flex-wrap justify-center gap-4 mt-4 md:justify-start">
+                {artist.tags.map((tag) => (
+                  <span key={tag} className="px-3 py-1 text-sm bg-muted rounded-full">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

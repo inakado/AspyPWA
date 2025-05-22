@@ -96,13 +96,13 @@ export default function ArtistsShowcase() {
     <Card key={artist.id}>
       <div className="relative aspect-[1/1]">
         <Link href={`/artists/${artist.id}`}>
-          <Image
-            src={artist.image || "/placeholder.svg"}
-            alt={`${artist.name} artwork`}
-            fill
+        <Image
+          src={artist.image || "/placeholder.svg"}
+          alt={`${artist.name} artwork`}
+          fill
             className="object-cover cursor-pointer transition-opacity hover:opacity-90"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-          />
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+        />
         </Link>
       </div>
       <CardContent className="pt-5">
@@ -114,13 +114,15 @@ export default function ArtistsShowcase() {
             <p className="text-sm text-foreground/70">{pluralizeWorks(artist.artworksCount)}</p>
           </div>
         </div>
-        <div className="flex flex-wrap gap-2 mt-4">
-          {artist.tags.slice(0, 3).map((tag: string) => (
-            <span key={tag} className="px-2 py-1 text-xs bg-primary/5 rounded-sm text-foreground/80">
-              {tag}
-            </span>
-          ))}
-        </div>
+        {artist.tags.length > 0 && (
+          <div className="flex flex-wrap gap-2 mt-4">
+            {artist.tags.slice(0, 3).map((tag: string) => (
+              <span key={tag} className="px-2 py-1 text-xs bg-primary/5 rounded-sm text-foreground/80">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
       </CardContent>
     </Card>
   )

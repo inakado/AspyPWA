@@ -55,23 +55,6 @@ export default function SearchDialog() {
           />
           <Button type="submit">Найти</Button>
         </form>
-        <div className="mt-4">
-          <p className="mb-2 text-sm text-foreground/70">Популярные запросы:</p>
-          <div className="flex flex-wrap gap-2">
-            {["Пейзаж", "Абстракция", "Портрет", "Современное искусство", "Импрессионизм"].map((term) => (
-              <Button
-                key={term}
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  setQuery(term)
-                }}
-              >
-                {term}
-              </Button>
-            ))}
-          </div>
-        </div>
       </DialogContent>
     </Dialog>
   )

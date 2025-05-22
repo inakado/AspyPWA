@@ -103,16 +103,16 @@ export default function SoldArtworks() {
               ) : (
                 <>
                   <Link href={`/artworks/${artwork.id}`}>
-                    <Image
-                      src={artwork.image || "/placeholder.svg"}
-                      alt={artwork.name}
-                      fill
+              <Image
+                src={artwork.image || "/placeholder.svg"}
+                alt={artwork.name}
+                fill
                       className="object-cover cursor-pointer transition-opacity hover:opacity-90"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center bg-[#1E3557]/40">
-                      <span className="px-3 py-1 text-sm font-medium text-white bg-art-primary/90 rounded-sm">Продано</span>
-                    </div>
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+              />
+              <div className="absolute inset-0 flex items-center justify-center bg-[#1E3557]/40">
+                <span className="px-3 py-1 text-sm font-medium text-white bg-art-primary/90 rounded-sm">Продано</span>
+              </div>
                   </Link>
                 </>
               )}
