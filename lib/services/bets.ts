@@ -81,9 +81,10 @@ export async function createBet(
 	value: number
 ): Promise<BetModel | null> {
 	try {
+		// Создаем правильные ссылки в формате Baserow
 		const betData = {
-			Lot: [{ id: lotId }],
-			User: [{ id: userId }],
+			Lot: [{ id: lotId, value: '', order: '' }] as BaserowReference[],
+			User: [{ id: userId, value: '', order: '' }] as BaserowReference[],
 			BetValue: value.toString(),
 			Date: new Date().toISOString(),
 		}

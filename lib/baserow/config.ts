@@ -8,6 +8,7 @@ export const BASEROW_TABLE_IDS = {
 	ARTISTS: 425410,
 	BETS: 427189,
 	USERS: 427190,
+	AUCTIONS: 547257,
 }
 
 // Настройки подключения

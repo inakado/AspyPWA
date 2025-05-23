@@ -9,19 +9,25 @@ import { Separator } from "@/components/ui/separator"
 import { getAuction, getAuctionLots } from "@/lib/data"
 
 interface AuctionPageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
-export default function AuctionPage({ params }: AuctionPageProps) {
-  const auction = getAuction(params.id)
+export default async function AuctionPage({ params }: AuctionPageProps) {
+  const { id } = await params
+  const auction = getAuction(id)
 
   if (!auction) {
     notFound()
   }
 
-  const lots = getAuctionLots(params.id)
+  const lots = getAuctionLots(id)
+
+  // Форматирование даты
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("ru-RU")
+  }
 
   return (
     <div className="container px-4 py-8 mx-auto">
@@ -61,32 +67,38 @@ export default function AuctionPage({ params }: AuctionPageProps) {
               <CalendarDays className="w-5 h-5 text-muted-foreground" />
               <div>
                 <p className="text-sm text-muted-foreground">Дата</p>
-                <p>{new Date(auction.date).toLocaleDateString("ru-RU")}</p>
+                <p>{formatDate(auction.date)}</p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Clock className="w-5 h-5 text-muted-foreground" />
-              <div>
-                <p className="text-sm text-muted-foreground">Время</p>
-                <p>
-                  {auction.startTime} - {auction.endTime}
-                </p>
+            {auction.startTime && auction.endTime && (
+              <div className="flex items-center gap-2">
+                <Clock className="w-5 h-5 text-muted-foreground" />
+                <div>
+                  <p className="text-sm text-muted-foreground">Время</p>
+                  <p>
+                    {auction.startTime} - {auction.endTime}
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <MapPin className="w-5 h-5 text-muted-foreground" />
-              <div>
-                <p className="text-sm text-muted-foreground">Локация</p>
-                <p>{auction.location}</p>
+            )}
+            {auction.location && (
+              <div className="flex items-center gap-2">
+                <MapPin className="w-5 h-5 text-muted-foreground" />
+                <div>
+                  <p className="text-sm text-muted-foreground">Локация</p>
+                  <p>{auction.location}</p>
+                </div>
               </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <PaintBucket className="w-5 h-5 text-muted-foreground" />
-              <div>
-                <p className="text-sm text-muted-foreground">Лотов</p>
-                <p>{auction.totalLots}</p>
+            )}
+            {auction.totalLots && (
+              <div className="flex items-center gap-2">
+                <PaintBucket className="w-5 h-5 text-muted-foreground" />
+                <div>
+                  <p className="text-sm text-muted-foreground">Лотов</p>
+                  <p>{auction.totalLots}</p>
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           {auction.status === "upcoming" && (

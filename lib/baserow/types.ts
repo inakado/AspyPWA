@@ -72,6 +72,25 @@ export interface Artist {
 }
 
 /**
+ * Таблица Auctions (547257)
+ */
+export interface Auction {
+	id: number
+	order: string
+	name: string
+	start_date: string
+	end_date: string
+	venue: string
+	city: string
+	lot_count: string
+	lots_sold: string
+	total_sales_rub: string
+	description_short: string
+	photo: BaserowImage[]
+	is_active: boolean
+}
+
+/**
  * Таблица Bets (427189)
  */
 export interface Bet {

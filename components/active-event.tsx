@@ -1,15 +1,67 @@
+'use client'
+
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { getActiveEvent } from "@/lib/data"
+import { Skeleton } from "@/components/ui/skeleton"
+import { useActiveAuction } from "@/hooks/api/auctions"
 
 export default function ActiveEvent() {
-  const event = getActiveEvent()
+  const { auction, isLoading, error } = useActiveAuction()
 
-  if (!event) {
+  // Показываем состояние загрузки
+  if (isLoading) {
+    return (
+      <section className="py-10">
+        <Card>
+          <div className="grid md:grid-cols-2">
+            <div className="relative aspect-square md:aspect-auto">
+              <Skeleton className="w-full h-full" />
+            </div>
+            <div className="flex flex-col justify-center px-4 py-8 md:p-8 space-y-5">
+              <div>
+                <Skeleton className="h-8 w-64 mb-2" />
+                <Skeleton className="h-4 w-32" />
+              </div>
+              <Skeleton className="h-16 w-full" />
+              <div className="grid grid-cols-2 gap-6 mt-4">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i}>
+                    <Skeleton className="h-3 w-16 mb-1" />
+                    <Skeleton className="h-5 w-20" />
+                  </div>
+                ))}
+              </div>
+              {/* ВРЕМЕННО ОТКЛЮЧЕНО: Кнопки действий */}
+              {/* <div className="flex flex-col gap-3 mt-4 sm:flex-row">
+                <Skeleton className="h-10 flex-1" />
+                <Skeleton className="h-10 flex-1" />
+              </div> */}
+            </div>
+          </div>
+        </Card>
+      </section>
+    )
+  }
+
+  // Скрываем компонент если ошибка или нет активного аукциона
+  if (error || !auction) {
     return null
   }
+
+  // Форматирование даты
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("ru-RU")
+  }
+
+  // ВРЕМЕННО ОТКЛЮЧЕНО: Получение времени из дат
+  // const getTimeFromDate = (dateString: string) => {
+  //   return new Date(dateString).toLocaleTimeString("ru-RU", { 
+  //     hour: '2-digit', 
+  //     minute: '2-digit' 
+  //   })
+  // }
 
   return (
     <section className="py-10">
@@ -17,8 +69,8 @@ export default function ActiveEvent() {
         <div className="grid md:grid-cols-2">
           <div className="relative aspect-square md:aspect-auto">
             <Image
-              src={event.image || "/placeholder.svg"}
-              alt={event.title}
+              src={auction.image || "/placeholder.svg"}
+              alt={auction.name}
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 50vw"
@@ -28,39 +80,56 @@ export default function ActiveEvent() {
 
           <div className="flex flex-col justify-center px-4 py-8 md:p-8 space-y-5">
             <div>
-              <h3 className="text-2xl font-serif font-medium text-art-primary">{event.title}</h3>
-              <p className="mt-1 text-foreground/70">{new Date(event.date).toLocaleDateString("ru-RU")}</p>
+              <h3 className="text-2xl font-serif font-medium text-art-primary">{auction.name}</h3>
+              <p className="mt-1 text-foreground/70">{formatDate(auction.startDate)}</p>
             </div>
 
-            <p className="text-foreground/80 leading-relaxed">{event.description}</p>
+            <p className="text-foreground/80 leading-relaxed">{auction.description}</p>
 
             <div className="grid grid-cols-2 gap-6 mt-4">
               <div>
-                <p className="text-sm text-foreground/70">Начало</p>
-                <p className="font-medium text-art-primary">{event.startTime}</p>
+                <p className="text-sm text-foreground/70">Дата начала</p>
+                <p className="font-medium text-art-primary">
+                  {formatDate(auction.startDate)}
+                </p>
               </div>
               <div>
-                <p className="text-sm text-foreground/70">Окончание</p>
-                <p className="font-medium text-art-primary">{event.endTime}</p>
+                <p className="text-sm text-foreground/70">Дата окончания</p>
+                <p className="font-medium text-art-primary">
+                  {auction.startDate !== auction.endDate
+                    ? formatDate(auction.endDate)
+                    : "Один день"
+                  }
+                </p>
               </div>
-              <div>
-                <p className="text-sm text-foreground/70">Локация</p>
-                <p className="font-medium text-art-primary">{event.location}</p>
-              </div>
-              <div>
-                <p className="text-sm text-foreground/70">Лотов</p>
-                <p className="font-medium text-art-primary">{event.totalLots}</p>
-              </div>
+              {(auction.venue || auction.city) && (
+                <div>
+                  <p className="text-sm text-foreground/70">Локация</p>
+                  <p className="font-medium text-art-primary">
+                    {auction.venue && auction.city 
+                      ? `${auction.venue}, ${auction.city}` 
+                      : auction.venue || auction.city
+                    }
+                  </p>
+                </div>
+              )}
+              {auction.lotCount > 0 && (
+                <div>
+                  <p className="text-sm text-foreground/70">Лотов</p>
+                  <p className="font-medium text-art-primary">{auction.lotCount}</p>
+                </div>
+              )}
             </div>
 
-            <div className="flex flex-col gap-3 mt-4 sm:flex-row">
+            {/* ВРЕМЕННО ОТКЛЮЧЕНО: Кнопки действий */}
+            {/* <div className="flex flex-col gap-3 mt-4 sm:flex-row">
               <Button asChild className="flex-1">
-                <Link href={`/events/${event.id}`}>Участвовать</Link>
+                <Link href={`/auctions/${auction.id}`}>Участвовать</Link>
               </Button>
               <Button variant="outline" asChild className="flex-1">
-                <Link href={`/events/${event.id}/lots`}>Смотреть лоты</Link>
+                <Link href={`/auctions/${auction.id}/lots`}>Смотреть лоты</Link>
               </Button>
-            </div>
+            </div> */}
           </div>
         </div>
       </Card>

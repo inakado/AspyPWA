@@ -9,19 +9,20 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { getAuction, getAuctionLots } from "@/lib/data"
 
 interface AuctionLotsPageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
-export default function AuctionLotsPage({ params }: AuctionLotsPageProps) {
-  const auction = getAuction(params.id)
+export default async function AuctionLotsPage({ params }: AuctionLotsPageProps) {
+  const { id } = await params
+  const auction = getAuction(id)
 
   if (!auction) {
     notFound()
   }
 
-  const lots = getAuctionLots(params.id)
+  const lots = getAuctionLots(id)
 
   return (
     <div className="container px-4 py-8 mx-auto">

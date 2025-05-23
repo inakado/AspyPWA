@@ -1,5 +1,6 @@
 import { BASEROW_CONFIG, BASEROW_TABLE_IDS, DEFAULT_FETCH_PARAMS } from './config'
 import type {
+	Auction,
 	Artist,
 	BaserowListResponse,
 	Bet,
@@ -249,7 +250,46 @@ export class BaserowClient {
 		return this.deleteRecord(BASEROW_TABLE_IDS.ARTISTS, id)
 	}
 
-	// === Методы для работы со ставками ===
+	// === Методы для работы с аукционами ===
+
+	/**
+	 * Получение списка аукционов
+	 */
+	async getAuctions(
+		params?: FetchRecordsParams
+	): Promise<BaserowListResponse<Auction>> {
+		return this.fetchRecords<Auction>(BASEROW_TABLE_IDS.AUCTIONS, params)
+	}
+
+	/**
+	 * Получение аукциона по ID
+	 */
+	async getAuctionById(id: number): Promise<Auction> {
+		return this.fetchRecordById<Auction>(BASEROW_TABLE_IDS.AUCTIONS, id)
+	}
+
+	/**
+	 * Создание нового аукциона
+	 */
+	async createAuction(data: Partial<Auction>): Promise<Auction> {
+		return this.createRecord<Auction>(BASEROW_TABLE_IDS.AUCTIONS, data)
+	}
+
+	/**
+	 * Обновление аукциона
+	 */
+	async updateAuction(id: number, data: Partial<Auction>): Promise<Auction> {
+		return this.updateRecord<Auction>(BASEROW_TABLE_IDS.AUCTIONS, id, data)
+	}
+
+	/**
+	 * Удаление аукциона
+	 */
+	async deleteAuction(id: number): Promise<void> {
+		return this.deleteRecord(BASEROW_TABLE_IDS.AUCTIONS, id)
+	}
+
+	// === Методы для работы с ставками ===
 
 	/**
 	 * Получение списка ставок
@@ -306,14 +346,8 @@ export class BaserowClient {
 	 * Получение пользователя по Telegram ID
 	 */
 	async getUserByTelegramId(telegramId: string): Promise<User | null> {
-		const params: FetchRecordsParams = {
-			page: 1,
-			size: 1,
-			search: telegramId,
-		}
-
-		const response = await this.getUsers(params)
-		return response.results.length > 0 ? response.results[0] : null
+		const response = await this.getUsers({ search: telegramId })
+		return response.results.find(user => user.TelegramID === telegramId) || null
 	}
 
 	/**
