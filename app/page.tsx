@@ -13,7 +13,7 @@ export default function HomePage() {
       {/* Компонент HotBids временно скрыт, но сохранен для возможного использования в будущем */}
       {/* <HotBids /> */}
       <FavoriteArtworks />
-      <Announcements />
+      {/* <Announcements /> */}
       <ArtistsShowcase />
       <SoldArtworks />
       <FAQ />

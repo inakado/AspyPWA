@@ -3,70 +3,66 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { CheckCircle, Mail, Phone, MapPin } from "lucide-react"
+import { CheckCircle, Mail, Phone, MapPin, Palette, Heart, Eye } from "lucide-react"
 
 export default function AboutPage() {
   return (
     <div className="container px-4 py-8 mx-auto">
-      <div className="grid gap-8 md:grid-cols-2">
-        <div className="max-w-xl">
-          <h1 className="mb-4 text-3xl font-bold">О нас</h1>
-          <p className="mb-4 text-muted-foreground">
-            ASPY — это современная платформа для проведения аукционов произведений искусства, объединяющая
-            коллекционеров, ценителей искусства и художников со всего мира.
-          </p>
-          <p className="mb-6 text-muted-foreground">
-            Наша миссия — сделать искусство доступным для всех, создавая прозрачную и удобную площадку для покупки и
-            продажи произведений искусства.
-          </p>
-
-          <div className="space-y-4">
-            <div className="flex items-start gap-2">
-              <CheckCircle className="w-5 h-5 mt-1 text-primary" />
-              <div>
-                <h3 className="font-medium">Подлинность</h3>
-                <p className="text-sm text-muted-foreground">
-                  Все произведения искусства проходят тщательную проверку подлинности нашими экспертами.
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start gap-2">
-              <CheckCircle className="w-5 h-5 mt-1 text-primary" />
-              <div>
-                <h3 className="font-medium">Прозрачность</h3>
-                <p className="text-sm text-muted-foreground">
-                  Мы обеспечиваем полную прозрачность всех аукционных процессов и истории произведений.
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start gap-2">
-              <CheckCircle className="w-5 h-5 mt-1 text-primary" />
-              <div>
-                <h3 className="font-medium">Доступность</h3>
-                <p className="text-sm text-muted-foreground">
-                  Наша платформа делает искусство доступным для широкой аудитории, от начинающих коллекционеров до
-                  опытных ценителей.
-                </p>
-              </div>
-            </div>
+      <div className="max-w-4xl mx-auto">
+        <h1 className="mb-8 text-4xl font-bold text-center text-primary">О нас</h1>
+        
+        <div className="space-y-6">
+          <div className="p-6 bg-gradient-to-br from-primary/5 to-transparent rounded-lg border">
+            <h2 className="text-xl font-semibold mb-3 text-primary">ASPY — арт-бюро из Владивостока</h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Мы вдохновлены экспериментальным подходом к искусству, свободой эстетического самовыражения 
+              и преодолением временных рамок и стереотипов. В основе нашего проекта лежит уверенность в том, 
+              что искусство остается актуальным, живым и востребованным до тех пор, пока зритель способен 
+              чувствовать, понимать и осознавать его.
+            </p>
           </div>
-        </div>
 
-        <div className="relative h-[400px] md:h-[500px] overflow-hidden rounded-lg">
-          <Image
-            src="/AspyLogoBig.webp"
-            alt="Art Auction Gallery"
-            fill
-            priority
-            quality={90}
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-          />
+          <div className="p-6 bg-gradient-to-br from-secondary/10 to-transparent rounded-lg border">
+            <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
+              <Palette className="w-5 h-5 text-primary" />
+              АСПИ — Уникальная платформа
+            </h3>
+            <p className="text-muted-foreground leading-relaxed">
+              Аукцион Своевременных Произведений Искусств представляет собой уникальную платформу, 
+              где искусство становится мостом между прошлым и настоящим. Здесь вы можете обнаружить 
+              удивительные параллели и созвучия между произведениями, созданными столетия назад, 
+              и современными арт-объектами, отражающими идеи сегодняшнего дня.
+            </p>
+          </div>
+
+          <div className="p-6 bg-gradient-to-br from-accent/10 to-transparent rounded-lg border">
+            <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
+              <Heart className="w-5 h-5 text-primary" />
+              Пространство вдохновения
+            </h3>
+            <p className="text-muted-foreground leading-relaxed">
+              Наш аукцион – это не только место продажи картин, но и пространство, призванное вдохновлять, 
+              пробуждать воображение и стимулировать зрителей на увлекательное путешествие по океану ассоциаций 
+              и образного мышления. Взаимодействуя с произведениями своевременного искусства, вы погружаетесь 
+              в атмосферу живых образов и ярких эмоций, способных изменить восприятие окружающего мира.
+            </p>
+          </div>
+
+          <div className="p-6 bg-gradient-to-br from-primary/10 to-transparent rounded-lg border-2 border-primary/20">
+            <h3 className="text-lg font-semibold mb-3 flex items-center gap-2 text-primary">
+              <Eye className="w-5 h-5" />
+              Присоединяйтесь к ASPY
+            </h3>
+            <p className="text-muted-foreground leading-relaxed">
+              Откройте для себя своевременное искусство, способное говорить на языке, понятном каждому поколению.
+            </p>
+          </div>
         </div>
       </div>
 
       <Separator className="my-12" />
 
+      {/* Скрытый блок команды - можно раскомментировать при необходимости
       <div className="mb-12">
         <h2 className="mb-6 text-2xl font-bold text-center">Наша команда</h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -104,54 +100,39 @@ export default function AboutPage() {
           ))}
         </div>
       </div>
+      */}
 
-      <div className="grid gap-8 mb-12 md:grid-cols-2">
-        <div>
-          <h2 className="mb-6 text-2xl font-bold">Наша история</h2>
-          <div className="space-y-4">
-            <div>
-              <h3 className="font-semibold">2020</h3>
-              <p className="text-muted-foreground">
-                Основание компании. Запуск первой версии платформы с фокусом на российских художников.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold">2021</h3>
-              <p className="text-muted-foreground">
-                Расширение каталога. Проведение первого крупного онлайн-аукциона современного искусства.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold">2022</h3>
-              <p className="text-muted-foreground">
-                Запуск мобильного приложения. Интеграция с ведущими галереями и музеями.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold">2023</h3>
-              <p className="text-muted-foreground">
-                Выход на международный рынок. Открытие представительств в Европе и Азии.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold">2024</h3>
-              <p className="text-muted-foreground">
-                Запуск образовательной программы для коллекционеров и художников. Проведение первого благотворительного
-                аукциона.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold">2025</h3>
-              <p className="text-muted-foreground">
-                Редизайн платформы. Внедрение новых технологий для улучшения пользовательского опыта.
-              </p>
-            </div>
-          </div>
-        </div>
+      {/* Дополнительный декоративный блок */}
+      <div className="grid gap-8 mb-12 md:grid-cols-3">
+        <Card className="p-6 text-center bg-gradient-to-br from-primary/5 to-transparent">
+          <Palette className="w-12 h-12 mx-auto mb-4 text-primary" />
+          <h3 className="mb-2 font-semibold">Экспериментальный подход</h3>
+          <p className="text-sm text-muted-foreground">
+            Свобода эстетического самовыражения и преодоление временных рамок
+          </p>
+        </Card>
+        
+        <Card className="p-6 text-center bg-gradient-to-br from-secondary/10 to-transparent">
+          <Heart className="w-12 h-12 mx-auto mb-4 text-primary" />
+          <h3 className="mb-2 font-semibold">Живое искусство</h3>
+          <p className="text-sm text-muted-foreground">
+            Произведения остаются актуальными, пока зритель способен их чувствовать
+          </p>
+        </Card>
+        
+        <Card className="p-6 text-center bg-gradient-to-br from-accent/10 to-transparent">
+          <Eye className="w-12 h-12 mx-auto mb-4 text-primary" />
+          <h3 className="mb-2 font-semibold">Мост времени</h3>
+          <p className="text-sm text-muted-foreground">
+            Связываем прошлое и настоящее через своевременное искусство
+          </p>
+        </Card>
+      </div>
 
-        <div>
-          <h2 className="mb-6 text-2xl font-bold">Контакты</h2>
-          <div className="p-6 space-y-4 border rounded-lg">
+      <div>
+        <h2 className="mb-6 text-2xl font-bold text-center">Контакты</h2>
+        <div className="max-w-lg mx-auto">
+          <div className="p-6 space-y-4 border rounded-lg bg-gradient-to-br from-primary/5 to-transparent">
             <div className="flex items-start gap-3">
               <MapPin className="w-5 h-5 mt-1 text-primary" />
               <div>
@@ -178,22 +159,6 @@ export default function AboutPage() {
               <Link href="/contact">Связаться с нами</Link>
             </Button>
           </div>
-        </div>
-      </div>
-
-      <div className="p-8 text-center border rounded-lg">
-        <h2 className="mb-4 text-2xl font-bold">Присоединяйтесь к нам</h2>
-        <p className="max-w-2xl mx-auto mb-6 text-muted-foreground">
-          Станьте частью нашего сообщества ценителей искусства. Регистрируйтесь на платформе, чтобы получить доступ к
-          эксклюзивным аукционам, предварительным просмотрам и специальным мероприятиям.
-        </p>
-        <div className="flex flex-col justify-center gap-4 sm:flex-row">
-          <Button asChild size="lg">
-            <Link href="/register">Зарегистрироваться</Link>
-          </Button>
-          <Button variant="outline" asChild size="lg">
-            <Link href="/login">Войти</Link>
-          </Button>
         </div>
       </div>
     </div>
