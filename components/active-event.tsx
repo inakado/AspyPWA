@@ -16,7 +16,7 @@ export default function ActiveEvent() {
       <section className="py-10">
         <Card>
           <div className="grid md:grid-cols-2">
-            <div className="relative aspect-square md:aspect-auto">
+            <div className="relative h-[300px] md:h-[400px] lg:h-full">
               <Skeleton className="w-full h-full" />
             </div>
             <div className="flex flex-col justify-center px-4 py-8 md:p-8 space-y-5">
@@ -65,19 +65,18 @@ export default function ActiveEvent() {
 
   return (
     <section className="py-10">
-      <Card>
+      <Card className="overflow-hidden">
         <div className="grid md:grid-cols-2">
-          <div className="relative aspect-square md:aspect-auto">
+          <div className="relative h-[300px] md:h-[400px] lg:h-full">
             <Image
               src={auction.image || "/placeholder.svg"}
               alt={auction.name}
               fill
               className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               priority
             />
           </div>
-
           <div className="flex flex-col justify-center px-4 py-8 md:p-8 space-y-5">
             <div>
               <h3 className="text-2xl font-serif font-medium text-art-primary">{auction.name}</h3>
