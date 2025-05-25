@@ -2,13 +2,15 @@
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
+import { useState } from "react"
 import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, VisuallyHidden } from "@/components/ui/sheet"
 import SearchDialog from "@/components/search-dialog"
 
 export default function Header() {
   const pathname = usePathname()
+  const [isOpen, setIsOpen] = useState(false)
 
   const navItems = [
     { name: "Главная", href: "/" },
@@ -17,11 +19,15 @@ export default function Header() {
     { name: "О проекте", href: "/about" },
   ]
 
+  const handleLinkClick = () => {
+    setIsOpen(false)
+  }
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-art-bg/95 backdrop-blur supports-[backdrop-filter]:bg-art-bg/60">
       <div className="container flex items-center justify-between h-16 px-4 mx-auto">
         <div className="flex items-center">
-          <Sheet>
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
                 <Menu className="w-5 h-5 text-foreground" />
@@ -29,11 +35,15 @@ export default function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-[300px] sm:w-[400px] bg-art-base">
+              <VisuallyHidden>
+                <SheetTitle>Меню навигации</SheetTitle>
+              </VisuallyHidden>
               <nav className="flex flex-col gap-4 mt-6">
                 {navItems.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
+                    onClick={handleLinkClick}
                     className={`text-lg font-medium transition-colors ${
                       pathname === item.href ? "text-art-accent" : "text-foreground/80 hover:text-art-primary"
                     }`}

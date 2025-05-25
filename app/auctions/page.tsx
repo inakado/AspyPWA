@@ -42,10 +42,11 @@ export default function AuctionsPage() {
                   <Skeleton className="h-4 w-16" />
                 </div>
                 <Skeleton className="h-12 w-full mb-4" />
-                <div className="flex gap-2">
+                {/* ВРЕМЕННО ОТКЛЮЧЕНО: Skeleton для кнопок */}
+                {/* <div className="flex gap-2">
                   <Skeleton className="h-10 flex-1" />
                   <Skeleton className="h-10 flex-1" />
-                </div>
+                </div> */}
               </CardContent>
             </Card>
           ))}
@@ -81,8 +82,13 @@ export default function AuctionsPage() {
         <TabsContent value="active">
           {activeAuctions.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2">
-              {activeAuctions.map((auction) => (
-                <AuctionCard key={auction.id} auction={auction} />
+              {activeAuctions.map((auction, index) => (
+                <div key={auction.id}>
+                  <AuctionCard auction={auction} />
+                  {index < activeAuctions.length - 1 && (
+                    <div className="w-full h-px bg-primary/10 my-6 md:hidden"></div>
+                  )}
+                </div>
               ))}
             </div>
           ) : (
@@ -93,8 +99,13 @@ export default function AuctionsPage() {
         <TabsContent value="upcoming">
           {upcomingAuctions.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2">
-              {upcomingAuctions.map((auction) => (
-                <AuctionCard key={auction.id} auction={auction} />
+              {upcomingAuctions.map((auction, index) => (
+                <div key={auction.id}>
+                  <AuctionCard auction={auction} />
+                  {index < upcomingAuctions.length - 1 && (
+                    <div className="w-full h-px bg-primary/10 my-6 md:hidden"></div>
+                  )}
+                </div>
               ))}
             </div>
           ) : (
@@ -105,8 +116,13 @@ export default function AuctionsPage() {
         <TabsContent value="past">
           {pastAuctions.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2">
-              {pastAuctions.map((auction) => (
-                <AuctionCard key={auction.id} auction={auction} />
+              {pastAuctions.map((auction, index) => (
+                <div key={auction.id}>
+                  <AuctionCard auction={auction} />
+                  {index < pastAuctions.length - 1 && (
+                    <div className="w-full h-px bg-primary/10 my-6 md:hidden"></div>
+                  )}
+                </div>
               ))}
             </div>
           ) : (
@@ -202,10 +218,11 @@ function AuctionCard({ auction }: { auction: AuctionModel }) {
         
         {/* Описание - показываем только если есть */}
         {auction.description && (
-          <p className="mb-4 text-sm text-muted-foreground line-clamp-2">{auction.description}</p>
+          <p className="mb-4 text-sm text-muted-foreground">{auction.description}</p>
         )}
         
-        <div className="flex gap-2">
+        {/* ВРЕМЕННО ОТКЛЮЧЕНО: Кнопки действий */}
+        {/* <div className="flex gap-2">
           <Button asChild className="flex-1">
             <Link href={`/auctions/${auction.id}`}>Подробнее</Link>
           </Button>
@@ -214,7 +231,7 @@ function AuctionCard({ auction }: { auction: AuctionModel }) {
               <Link href={`/auctions/${auction.id}/lots`}>Лоты</Link>
             </Button>
           )}
-        </div>
+        </div> */}
       </CardContent>
     </Card>
   )

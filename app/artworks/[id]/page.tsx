@@ -225,7 +225,7 @@ export default function ArtworkPage() {
       {/* Секция с другими работами художника */}
       {artistId && filteredArtistLots.length > 0 && (
         <div className="mt-16">
-          <div className="w-full h-px bg-primary/10 my-8"></div>
+          <h2 className="text-2xl font-serif font-medium text-primary mb-8">Другие работы</h2>
           
           {artistLotsLoading ? (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
