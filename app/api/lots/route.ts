@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getLots, getLotById, getActiveLots, getLotsByArtistId, getSoldLots, getFavoriteArtworks } from '@/lib/services'
+import { getLots, getLotById, getActiveLots, getLotsByArtistId, getLotsByAuctionId, getSoldLots, getFavoriteArtworks } from '@/lib/services'
 
 /**
  * GET /api/lots - получение всех лотов
@@ -7,6 +7,7 @@ import { getLots, getLotById, getActiveLots, getLotsByArtistId, getSoldLots, get
  * GET /api/lots?active=true - получение только активных лотов
  * GET /api/lots?sold=true - получение только проданных лотов
  * GET /api/lots?artistId=123 - получение лотов определенного художника
+ * GET /api/lots?auctionId=123 - получение лотов определенного аукциона
  * GET /api/lots?favorite=true - получение избранных лотов
  */
 export async function GET(request: Request) {
@@ -16,6 +17,7 @@ export async function GET(request: Request) {
 		const active = searchParams.get('active')
 		const sold = searchParams.get('sold')
 		const artistId = searchParams.get('artistId')
+		const auctionId = searchParams.get('auctionId')
 		const favorite = searchParams.get('favorite')
 
 		// Получение лота по ID
@@ -37,6 +39,13 @@ export async function GET(request: Request) {
 		if (artistId) {
 			const artist = parseInt(artistId, 10)
 			const lots = await getLotsByArtistId(artist)
+			return NextResponse.json(lots)
+		}
+
+		// Получение лотов конкретного аукциона
+		if (auctionId) {
+			const auction = parseInt(auctionId, 10)
+			const lots = await getLotsByAuctionId(auction)
 			return NextResponse.json(lots)
 		}
 

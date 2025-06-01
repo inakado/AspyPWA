@@ -18,6 +18,7 @@ export interface AuctionModel {
 	image: string | null
 	isActive: boolean
 	status: 'active' | 'upcoming' | 'past'
+	lots: number[]
 }
 
 /**
@@ -86,6 +87,9 @@ function transformAuctionToModel(auction: Auction): AuctionModel {
 		status = 'past'
 	}
 
+	// Извлекаем ID лотов из связей
+	const lots = auction.Lots?.map(lot => lot.id) || []
+
 	return {
 		id: auction.id,
 		name: auction.name || '',
@@ -100,5 +104,6 @@ function transformAuctionToModel(auction: Auction): AuctionModel {
 		image,
 		isActive: isActiveFlag,
 		status,
+		lots,
 	}
 } 

@@ -156,6 +156,35 @@ export async function getLotsByArtistId(artistId: number): Promise<LotModel[]> {
 }
 
 /**
+ * Получение лотов определенного аукциона
+ */
+export async function getLotsByAuctionId(auctionId: number): Promise<LotModel[]> {
+	try {
+		const response = await baserowClient.getLots()
+		
+		// Получаем все уникальные ID художников из лотов этого аукциона
+		const artistIds = new Set<number>()
+		response.results
+			.filter(lot => lot.Auction?.some(auction => auction.id === auctionId))
+			.forEach(lot => {
+				lot.Artists?.forEach(artist => artistIds.add(artist.id))
+			})
+		
+		// Загружаем полную информацию о художниках
+		const artistsMap = await getArtistsDisplayNames(Array.from(artistIds))
+		
+		return response.results
+			.filter(lot => 
+				lot.Auction?.some(auction => auction.id === auctionId)
+			)
+			.map(lot => transformLotToModel(lot, artistsMap))
+	} catch (error) {
+		console.error(`Ошибка при получении лотов аукциона с ID ${auctionId}:`, error)
+		return []
+	}
+}
+
+/**
  * Получение displayName художников по их ID
  */
 async function getArtistsDisplayNames(artistIds: number[]): Promise<Map<number, { displayName: string }>> {

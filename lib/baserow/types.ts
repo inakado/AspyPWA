@@ -54,6 +54,7 @@ export interface Lot {
 	technique: string
 	status: boolean
 	favoritesArt: boolean
+	Auction: BaserowReference[]
 }
 
 /**
@@ -88,6 +89,7 @@ export interface Auction {
 	description_short: string
 	photo: BaserowImage[]
 	is_active: boolean
+	Lots: BaserowReference[]
 }
 
 /**

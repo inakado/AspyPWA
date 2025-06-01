@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import type { AuctionModel } from '@/lib/services/auctions'
+import type { LotModel } from '@/lib/services'
 
 interface UseAuctionsResult {
 	auctions: AuctionModel[]
@@ -10,6 +11,13 @@ interface UseAuctionsResult {
 
 interface UseAuctionResult {
 	auction: AuctionModel | null
+	isLoading: boolean
+	error: string | null
+	retry: () => void
+}
+
+interface UseAuctionLotsResult {
+	lots: LotModel[]
 	isLoading: boolean
 	error: string | null
 	retry: () => void
@@ -142,5 +150,50 @@ export function useAuction(id: number | null): UseAuctionResult {
 		isLoading,
 		error,
 		retry: fetchAuction,
+	}
+}
+
+/**
+ * Хук для получения лотов конкретного аукциона
+ */
+export function useAuctionLots(auctionId: number | null): UseAuctionLotsResult {
+	const [lots, setLots] = useState<LotModel[]>([])
+	const [isLoading, setIsLoading] = useState(true)
+	const [error, setError] = useState<string | null>(null)
+
+	const fetchAuctionLots = async () => {
+		if (!auctionId) {
+			setIsLoading(false)
+			return
+		}
+
+		try {
+			setIsLoading(true)
+			setError(null)
+			
+			const response = await fetch(`/api/lots?auctionId=${auctionId}`)
+			if (!response.ok) {
+				throw new Error(`Ошибка при получении лотов аукциона с ID ${auctionId}`)
+			}
+			
+			const data = await response.json()
+			setLots(data)
+		} catch (err) {
+			console.error(`Ошибка при загрузке лотов аукциона с ID ${auctionId}:`, err)
+			setError(err instanceof Error ? err.message : 'Неизвестная ошибка')
+		} finally {
+			setIsLoading(false)
+		}
+	}
+
+	useEffect(() => {
+		fetchAuctionLots()
+	}, [auctionId])
+
+	return {
+		lots,
+		isLoading,
+		error,
+		retry: fetchAuctionLots,
 	}
 } 
