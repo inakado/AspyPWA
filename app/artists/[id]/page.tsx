@@ -120,45 +120,42 @@ export default function ArtistPage() {
       {sortedLots && sortedLots.length > 0 ? (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {sortedLots.map((lot) => (
-            <Card key={lot.id} className="overflow-hidden">
-              <div className="relative aspect-[1/1]">
-                <Image
-                  src={lot.image || "/placeholder.svg"}
-                  alt={lot.name}
-                  fill
-                  quality={85}
-                  className="object-cover"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                />
-                {!lot.isActive && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                    <span className="px-3 py-1 text-sm font-medium text-white bg-art-primary/90 rounded-sm">Продано</span>
-                  </div>
-                )}
-              </div>
-              <CardContent className="p-4">
-                <h3 className="font-semibold">{lot.name}</h3>
-                <p className="text-sm text-muted-foreground">{lot.year}</p>
-                <div className="flex items-center justify-between mt-4">
-                  {lot.isActive ? (
-                    <span className="font-medium">
-                      {lot.initialPrice ? `${lot.initialPrice.toLocaleString('ru-RU')} ₽` : "Нет ставок"}
-                    </span>
-                  ) : (
-                    <div>
-                      {!lot.finalText && <p className="text-xs text-foreground/70">Продано за</p>}
-                      <p className="font-medium text-art-primary">
-                        {lot.finalText || (lot.finalPrice ? `${lot.finalPrice.toLocaleString('ru-RU')} ₽` : `${lot.initialPrice.toLocaleString('ru-RU')} ₽`)}
-                      </p>
+            <Card key={lot.id} className="overflow-hidden group cursor-pointer">
+              <Link href={`/artworks/${lot.id}`}>
+                <div className="relative aspect-[1/1]">
+                  <Image
+                    src={lot.image || "/placeholder.svg"}
+                    alt={lot.name}
+                    fill
+                    quality={85}
+                    className="object-cover transition-opacity hover:opacity-90"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                  {!lot.isActive && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                      <span className="px-3 py-1 text-sm font-medium text-white bg-art-primary/90 rounded-sm">Продано</span>
                     </div>
                   )}
-                  <Link href={`/artworks/${lot.id}`}>
-                    <Button variant="outline" size="sm">
-                      Подробнее
-                    </Button>
-                  </Link>
                 </div>
-              </CardContent>
+                <CardContent className="p-4">
+                  <h3 className="font-serif font-medium text-art-primary elegant-link">{lot.name}</h3>
+                  <p className="text-sm text-muted-foreground">{lot.year}</p>
+                  <div className="mt-4">
+                    {lot.isActive ? (
+                      <span className="font-medium">
+                        {lot.initialPrice ? `${lot.initialPrice.toLocaleString('ru-RU')} ₽` : "Нет ставок"}
+                      </span>
+                    ) : (
+                      <div>
+                        {!lot.finalText && <p className="text-xs text-foreground/70">Продано за</p>}
+                        <p className="font-medium text-art-primary">
+                          {lot.finalText || (lot.finalPrice ? `${lot.finalPrice.toLocaleString('ru-RU')} ₽` : `${lot.initialPrice.toLocaleString('ru-RU')} ₽`)}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Link>
             </Card>
           ))}
         </div>
