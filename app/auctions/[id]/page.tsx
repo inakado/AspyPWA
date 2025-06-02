@@ -3,7 +3,7 @@
 import { notFound, useParams } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
-import { CalendarDays, Clock, MapPin, Users, PaintBucket } from "lucide-react"
+import { CalendarDays, Clock, MapPin, Users, PaintBucket, Banknote } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
@@ -109,67 +109,82 @@ export default function AuctionPage() {
 
   return (
     <div className="container px-4 py-8 mx-auto">
-      <div className="grid gap-8 md:grid-cols-2">
-        <div className="relative aspect-video overflow-hidden rounded-lg">
-          <Image
-            src={auction.image || "/placeholder.svg"}
-            alt={auction.name}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 50vw"
-            priority
-          />
-          <div className="absolute top-2 right-2">
-            {getStatusBadge(auction.status)}
+      <div className="grid gap-8 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <div className="relative aspect-[4/3] lg:aspect-[16/10] overflow-hidden rounded-lg">
+            <Image
+              src={auction.image || "/placeholder.svg"}
+              alt={auction.name}
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 66vw"
+              priority
+            />
+            <div className="absolute top-4 right-4">
+              {getStatusBadge(auction.status)}
+            </div>
           </div>
         </div>
 
         <div className="space-y-6">
           <div>
-            <h1 className="text-3xl font-bold">{auction.name}</h1>
-            <p className="mt-2 text-muted-foreground">{auction.description}</p>
+            <h1 className="text-2xl lg:text-3xl font-bold">{auction.name}</h1>
+            <p className="mt-2 text-muted-foreground text-sm lg:text-base">{auction.description}</p>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="flex items-center gap-2">
-              <CalendarDays className="w-5 h-5 text-muted-foreground" />
-              <div>
-                <p className="text-sm text-muted-foreground">Дата начала</p>
-                <p>{formatDate(auction.startDate)}</p>
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 gap-4">
+              <div className="flex items-center gap-3">
+                <CalendarDays className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+                <div>
+                  <p className="text-sm text-muted-foreground">Дата начала</p>
+                  <p className="font-medium">{formatDate(auction.startDate)}</p>
+                </div>
+              </div>
+              
+              {auction.startDate !== auction.endDate && (
+                <div className="flex items-center gap-3">
+                  <CalendarDays className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+                  <div>
+                    <p className="text-sm text-muted-foreground">Дата окончания</p>
+                    <p className="font-medium">{formatDate(auction.endDate)}</p>
+                  </div>
+                </div>
+              )}
+              
+              {(auction.venue || auction.city) && (
+                <div className="flex items-center gap-3">
+                  <MapPin className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+                  <div>
+                    <p className="text-sm text-muted-foreground">Локация</p>
+                    <p className="font-medium">
+                      {auction.venue && auction.city 
+                        ? `${auction.venue}, ${auction.city}` 
+                        : auction.venue || auction.city
+                      }
+                    </p>
+                  </div>
+                </div>
+              )}
+              
+              {auction.lotCount > 0 && (
+                <div className="flex items-center gap-3">
+                  <PaintBucket className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+                  <div>
+                    <p className="text-sm text-muted-foreground">Лотов</p>
+                    <p className="font-medium">{auction.lotCount}</p>
+                  </div>
+                </div>
+              )}
+              
+              <div className="flex items-center gap-3">
+                <Banknote className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+                <div>
+                  <p className="text-sm text-muted-foreground">Начальная цена</p>
+                  <p className="font-bold text-lg text-art-primary">20 000 ₽</p>
+                </div>
               </div>
             </div>
-            {auction.startDate !== auction.endDate && (
-              <div className="flex items-center gap-2">
-                <CalendarDays className="w-5 h-5 text-muted-foreground" />
-                <div>
-                  <p className="text-sm text-muted-foreground">Дата окончания</p>
-                  <p>{formatDate(auction.endDate)}</p>
-                </div>
-              </div>
-            )}
-            {(auction.venue || auction.city) && (
-              <div className="flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-muted-foreground" />
-                <div>
-                  <p className="text-sm text-muted-foreground">Локация</p>
-                  <p>
-                    {auction.venue && auction.city 
-                      ? `${auction.venue}, ${auction.city}` 
-                      : auction.venue || auction.city
-                    }
-                  </p>
-                </div>
-              </div>
-            )}
-            {auction.lotCount > 0 && (
-              <div className="flex items-center gap-2">
-                <PaintBucket className="w-5 h-5 text-muted-foreground" />
-                <div>
-                  <p className="text-sm text-muted-foreground">Лотов</p>
-                  <p>{auction.lotCount}</p>
-                </div>
-              </div>
-            )}
           </div>
 
           {auction.status === "upcoming" && (

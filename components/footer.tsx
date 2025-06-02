@@ -55,7 +55,7 @@ export default function Footer() {
 						<ul className="space-y-2">
 							<li className="text-white/80">
 								<a href="tel:+79146707053" className="hover:text-white transition-colors">
-                                +7 (914) 670-70-53
+                                +7 (914) 670-70-53 (Евгений)
 								</a>
 							</li>
 							<li className="text-white/80">

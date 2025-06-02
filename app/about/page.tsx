@@ -144,7 +144,7 @@ export default function AboutPage() {
               <Phone className="w-5 h-5 mt-1 text-primary" />
               <div>
                 <h3 className="font-medium">Телефон</h3>
-                <p className="text-muted-foreground">+7 (914) 670-70-53</p>
+                <p className="text-muted-foreground">+7 (914) 670-70-53 (Евгений)</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
